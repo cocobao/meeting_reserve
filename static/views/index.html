@@ -1,88 +1,85 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>会议预定</title>
 
-    
+
     <link rel="stylesheet" href="/static/css/office.css">
 </head>
+
 <body>
     <div class="office">
-
-
-        <!--预约时间-->
         <div class="weui-panel">
             <div class="office-time">
-                <h4>请选择预约日期</h4>
-                <p>只可提前预约最近5天</p>
-                <div class="office-time-con office-time-data">
-                    <div class="checked office-time-item date_" val="2019-11-25">今天<span>11月25日</span></div>
-                    <div class="office-time-item date_" val="2019-11-26">明天<span>11月26日</span></div>
-                    <div class="office-time-item date_" val="2019-11-27">后天<span>11月27日</span></div>
-                    <div class="office-time-item date_" val="2019-11-28">星期四<span>11月28日</span></div>
-                    <div class="office-time-item date_" val="2019-11-29">星期五<span>11月29日</span></div>
-                    <div class="office-time-item date_" val="2019-11-30">星期六<span>11月30日</span></div>
-                    <div class="office-time-item date_" val="2019-12-01">星期天<span>12月01日</span></div>
-                    <div class="office-time-item date_" val="2019-12-02">星期一<span>12月02日</span></div>
-                    <div class="office-time-item date_" val="2019-12-03">星期二<span>12月03日</span></div>
-                    <div class="office-time-item date_" val="2019-12-04">星期三<span>12月04日</span></div>
-                    <div class="office-time-item date_" val="2019-12-05">星期四<span>12月05日</span></div>
-                    <div class="office-time-item date_" val="2019-12-06">星期五<span>12月06日</span></div>
-                    <div class="office-time-item date_" val="2019-12-07">星期六<span>12月07日</span></div>
-                    <div class="office-time-item date_" val="2019-12-08">星期天<span>12月08日</span></div>
-                    <div class="office-time-item date_" val="2019-12-09">星期一<span>12月09日</span></div>
+                <h4>最近5天</h4>
+                <div class="office-time-con office-time-data" style="text-align: center;">
                 </div>
             </div>
         </div>
-    
-        <!--预约时段-->
+
         <div class="weui-panel">
             <div class="office-time">
-                <h4>请选择预约时段</h4>
-                <p>每个数字代表一个时段，例如9点表示9:00:00~9:59:59</p>
+                <h4>预约时段</h4>
                 <div class="office-time-legend">
                     <div class="office-time-legend-item">
                         <div class="legend-img used"></div>
-                        <div class="legend-text">可选</div>
+                        <div class="legend-text">可预定</div>
                     </div>
                     <div class="office-time-legend-item">
                         <div class="legend-img disabled"></div>
                         <div class="legend-text">已预订</div>
                     </div>
-                    <div class="office-time-legend-item">
-                        <div class="legend-img checked"></div>
-                        <div class="legend-text">已选</div>
-                    </div>
                 </div>
                 <div class="office-time-con office-time-slot" id="timeSoltCon">
-                    <div class="office-time-item slot_" data-time="1574632800">06:00</div>
-                    <div class="office-time-item slot_" data-time="1574634600">06:30</div>
-                    <div class="office-time-item slot_" data-time="1574636400">07:00</div>
-                    <div class="office-time-item slot_" data-time="1574638200">07:30</div>
-                    <div class="office-time-item slot_ disable" data-time="1574640000">08:00</div>
-                    <div class="office-time-item slot_ disable" data-time="1574641800">08:30</div>
-                    <div class="office-time-item slot_ disable" data-time="1574643600">09:00</div>
-                    <div class="office-time-item slot_ disable" data-time="1574645400">09:30</div>
-                    <div class="office-time-item slot_" data-time="1574647200">10:00</div>
-                    <div class="office-time-item slot_" data-time="1574649000">10:30</div>
-                    <div class="office-time-item slot_" data-time="1574650800">11:00</div>
-                    <div class="office-time-item slot_" data-time="1574652600">11:30</div>
-                    <div class="office-time-item slot_" data-time="1574654400">12:00</div>
-                    <div class="office-time-item slot_" data-time="1574656200">12:30</div>
-                    <div class="office-time-item slot_" data-time="1574658000">13:00</div>
                 </div>
-    
             </div>
         </div>
-    
+
         <div class="weui-btn-area">
             <a class="weui-btn weui-btn_main" href="javascript:;" id="submitOrder">立即预约</a>
         </div>
     </div>
 
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-    
+    <script src="/static/js/com.js"></script>
+    <script>
+        $(function () {
+            var str = ''
+            for (let index = 9; index < 19; index++) {
+                str += `<div class="office-time-item slot_" >` + index + `:00</div>`
+                str += `<div class="office-time-item slot_" >` + index + `:30</div>`
+            }
+
+            $("#timeSoltCon").html(str)
+
+            getWebService("/date", function (data) {
+                var str = '';
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    for (const key in element) {
+                        if (element.hasOwnProperty(key)) {
+                            const val = element[key];
+                            console.log(key, val)
+                            str += `<div class=" `
+                            if (index == 0) {
+                                str += `checked `
+                            }
+                            str += `office-time-item date_" val="` + val + `">` + key + `<span>` + val + `</span></div>`
+                        }
+                    }
+                }
+
+                $(".office-time-data").html(str)
+            })
+        })
+
+        $("#submitOrder").on("click", function () {
+            window.location.replace('/create')
+        })
+    </script>
 </body>
+
 </html>

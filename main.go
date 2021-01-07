@@ -31,6 +31,6 @@ func main() {
 		fmt.Println("~stop~~", utility.NowN())
 	})
 	setupLog()
-	setupDB()
+	// setupDB()
 	server.RunService(config.GetConfig().Port)
 }

@@ -20,6 +20,10 @@ func router() *gin.Engine {
 	g.GET("/", func(ctx *gin.Context) {
 		ctx.HTML(200, "index.html", nil)
 	})
+	g.GET("/create", func(ctx *gin.Context) {
+		ctx.HTML(200, "create.html", nil)
+	})
+	g.GET("/date", GetDate)
 	return g
 }
 
