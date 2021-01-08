@@ -1,15 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
-	"git.qhfct.io/comm-go/log"
-	"git.qhfct.io/comm-go/sig"
-	"git.qhfct.io/comm-go/utility"
-	"git.qhfct.io/meeting_reserve/config"
-	"git.qhfct.io/meeting_reserve/server"
-	"git.qhfct.io/meeting_reserve/store"
+	"github.com/cocobao/comm-go/log"
+	"github.com/cocobao/meeting_reserve/config"
+	"github.com/cocobao/meeting_reserve/server"
+	"github.com/cocobao/meeting_reserve/store"
 )
 
 func setupLog() {
@@ -27,9 +24,6 @@ func setupDB() {
 }
 
 func main() {
-	go sig.GracefullyStopSever(func() {
-		fmt.Println("~stop~~", utility.NowN())
-	})
 	setupLog()
 	setupDB()
 	server.RunService(config.GetConfig().Port)

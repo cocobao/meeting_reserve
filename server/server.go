@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"git.qhfct.io/comm-go/log"
+	"github.com/cocobao/comm-go/log"
 	"github.com/gin-gonic/gin"
 )
 

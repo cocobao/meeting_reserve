@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"git.qhfct.io/comm-go/com_conf"
+	"github.com/cocobao/comm-go/com_conf"
 )
 
 var (

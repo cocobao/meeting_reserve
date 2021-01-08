@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"git.qhfct.io/comm-go/log"
-	"git.qhfct.io/meeting_reserve/store"
+	"github.com/cocobao/comm-go/log"
+	"github.com/cocobao/meeting_reserve/store"
 	"github.com/gin-gonic/gin"
 )
 
