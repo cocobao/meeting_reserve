@@ -12,4 +12,4 @@
   
 2. go build
 
-![image](https://github.com/cocobao/meeting_reserve/raw/master/static/image/20210108170059.png)
+![image](https://github.com/cocobao/meeting_reserve/blob/master/image/20210108170059.png)
