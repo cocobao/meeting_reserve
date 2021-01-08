@@ -1,10 +1,20 @@
 .office{
-    width: 410px;
+    width: 430px;
     margin: 0 auto;
     background: #f7f7f7;
     box-shadow: 0 0 20px 1px rgba(0,0,0,0.3);
     padding-bottom:50px;
 }
+@media (max-width: 768px){
+    .office{
+        width: 98%;
+        margin: 0 auto;
+        background: #f7f7f7;
+        box-shadow: 0 0 20px 1px rgba(0,0,0,0.3);
+        padding-bottom:50px;
+    }
+}
+
 .office .office-time {
     padding: 15px;
     background: #fff;
@@ -100,10 +110,14 @@
 }
 .weui-btn_main {
     background-color: #38acff;
-    margin:20px 0 50px;
+    margin:20px 0 5px;
 }
+
 .office .office-time-con.office-time-data{
-    overflow-x: scroll; display: -webkit-box; -webkit-overflow-scrolling: touch;
+    /* overflow-x: scroll; display: -webkit-box; -webkit-overflow-scrolling: touch; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .office-time-data::-webkit-scrollbar {width:0;height:0;display: none;}
@@ -134,5 +148,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 10px;
 }
 

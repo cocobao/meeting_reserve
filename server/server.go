@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	"git.qhfct.io/comm-go/log"
 	"github.com/gin-gonic/gin"
@@ -18,12 +19,20 @@ func router() *gin.Engine {
 	g.LoadHTMLGlob("./static/views/*.html")
 
 	g.GET("/", func(ctx *gin.Context) {
-		ctx.HTML(200, "index.html", nil)
+		date := ctx.Query("date")
+		if date == "" {
+			now := time.Now()
+			date = fmt.Sprintf("%d月%d日", now.Month(), now.Day())
+		}
+		ctx.HTML(200, "index.html", map[string]string{"date": date})
 	})
 	g.GET("/create", func(ctx *gin.Context) {
-		ctx.HTML(200, "create.html", nil)
+		date := ctx.Query("date")
+		ctx.HTML(200, "create.html", map[string]string{"date": date})
 	})
 	g.GET("/date", GetDate)
+	g.POST("/meeting", PostMeeting)
+	g.GET("/meeting", GetMeetings)
 	return g
 }
 

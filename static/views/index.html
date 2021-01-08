@@ -6,16 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>会议预定</title>
 
-
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/office.css">
+    <link rel="stylesheet" href="/static/css/layer-animate.css">
 </head>
 
 <body>
+    <input type="text" hidden="true" value="{{.date}}" class="nowDate">
     <div class="office">
         <div class="weui-panel">
             <div class="office-time">
                 <h4>最近5天</h4>
-                <div class="office-time-con office-time-data" style="text-align: center;">
+                <div class="office-time-con office-time-data" id="office-date">
                 </div>
             </div>
         </div>
@@ -39,21 +41,58 @@
         </div>
 
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_main" href="javascript:;" id="submitOrder">立即预约</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="weui-btn weui-btn_main" style="background-color: gray;text-decoration:none;" href="javascript:;" id="checkdetail">查看详情</a>
+                </div>
+                <div class="col-md-6">
+                    <a class="weui-btn weui-btn_main" href="javascript:;" id="submitOrder">立即预约</a>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="/static/js/method.js"></script>
     <script src="/static/js/com.js"></script>
     <script>
-        $(function () {
-            var str = ''
-            for (let index = 9; index < 19; index++) {
-                str += `<div class="office-time-item slot_" >` + index + `:00</div>`
-                str += `<div class="office-time-item slot_" >` + index + `:30</div>`
-            }
+        var MeetingData;
+        function setDateSelect() {
+            $("#office-date").on("click", ".date_", function (e) {
+                window.location.replace('/?date='+$(this).data("val"))
+            })
+        }
 
-            $("#timeSoltCon").html(str)
+        function isSelect(arr, t) {
+            for (let index = 0; index < arr.length; index++) {
+                const ele = arr[index];
+                if (Number(ele) == Number(t)) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        $(function () {
+            getWebService("/meeting?date="+$(".nowDate").val(), function (data){
+                var str = ''
+                MeetingData = data
+                for (let index = 7; index < 19; index++) {
+                    str += `<div class="office-time-item slot_ `
+                    for (let j = 0; j < data.length; j++) {
+                        const ele = data[j];
+                        if (isSelect(ele["select"], index)) {
+                            str += "disable"
+                            break
+                        }
+                    }
+                    
+                    str += `" data-index="`+index+`" >` + index + `:00</div>`
+                }
+
+                $("#timeSoltCon").html(str)
+            })
 
             getWebService("/date", function (data) {
                 var str = '';
@@ -62,22 +101,50 @@
                     for (const key in element) {
                         if (element.hasOwnProperty(key)) {
                             const val = element[key];
-                            console.log(key, val)
                             str += `<div class=" `
-                            if (index == 0) {
+
+                            if ($(".nowDate").val() == '' && index == 0) {
                                 str += `checked `
                             }
-                            str += `office-time-item date_" val="` + val + `">` + key + `<span>` + val + `</span></div>`
+
+                            if ($(".nowDate").val() == val){
+                                str += `checked `
+                            }
+                            str += `office-time-item date_" data-val="` + val + `">` + key + `<span>` + val + `</span></div>`
                         }
                     }
                 }
 
-                $(".office-time-data").html(str)
+                $("#office-date").html(str)
+
+                setDateSelect()
             })
         })
 
         $("#submitOrder").on("click", function () {
-            window.location.replace('/create')
+            window.location.replace('/create?date='+$(".nowDate").val())
+        })
+
+        $("#checkdetail").on("click", function(){
+            console.log(MeetingData)
+
+            var str = ''
+            for (let index = 0; index < MeetingData.length; index++) {
+                const ele = MeetingData[index];
+                str += `<h4>会议  `+Number(index)+1+`</h4>`
+                str += `<p>发起人:  `+ele["publisher"]+`</p>`
+                str += `<p>参与人:  `+ele["participants"]+`</p>`
+                str += `<p>会议时间:`+ele["select"][0]+`点 - `+ele["select"][ele["select"].length-1]+`点</p>`
+                str += `<p>会议内容:`+ele["content"]+`</p>`
+            }
+
+            var obj = {
+                type: "none",
+                title: "会议详情",
+                content: str,
+                area:["400px", "400px"]
+            }
+            method.msg_layer(obj)
         })
     </script>
 </body>

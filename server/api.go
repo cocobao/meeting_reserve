@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"git.qhfct.io/comm-go/log"
+	"git.qhfct.io/meeting_reserve/store"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,7 +15,7 @@ func GetDate(ctx *gin.Context) {
 	now := time.Now()
 	result := []map[string]string{}
 
-	for i := 0; i < 6; i++ {
+	for i := 0; i < 10; i++ {
 		s := fmt.Sprintf("%d月%d日", now.Month(), now.Day())
 
 		switch i {
@@ -27,7 +29,7 @@ func GetDate(ctx *gin.Context) {
 			})
 		case 2:
 			result = append(result, map[string]string{
-				"后台": s,
+				"后天": s,
 			})
 		default:
 			result = append(result, map[string]string{
@@ -39,4 +41,35 @@ func GetDate(ctx *gin.Context) {
 	}
 
 	ctx.JSON(200, result)
+}
+
+func PostMeeting(ctx *gin.Context) {
+	var data store.MeetingData
+	if ctx.ShouldBindJSON(&data) != nil {
+		ctx.AbortWithStatus(500)
+		return
+	}
+
+	err := store.SaveMeetingData(&data)
+	if err != nil {
+		log.Error(err)
+		ctx.AbortWithStatus(501)
+		return
+	}
+	ctx.JSON(200, struct{}{})
+}
+
+func GetMeetings(ctx *gin.Context) {
+	date := ctx.Query("date")
+	results, err := store.GetMeetingsWithDate(date)
+	if err != nil {
+		log.Error(err)
+		ctx.AbortWithStatus(500)
+		return
+	}
+
+	if results == nil {
+		results = []*store.MeetingData{}
+	}
+	ctx.JSON(200, results)
 }

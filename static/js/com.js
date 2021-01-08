@@ -43,11 +43,7 @@ function postWebService(url, data, callback) {
         data: JSON.stringify(data),
         dataType: "json",
         complete: function (a) {
-            if (a.status == 200) {
-                callback(a.responseJSON);
-            } else {
-                console.log("call api fail, status:" + a.status)
-            }
+            callback(a.status, a.responseJSON);
         }
     })
 }
