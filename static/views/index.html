@@ -42,10 +42,10 @@
 
         <div class="weui-btn-area">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-xs-6">
                     <a class="weui-btn weui-btn_main" style="background-color: gray;text-decoration:none;" href="javascript:;" id="checkdetail">查看详情</a>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-xs-6">
                     <a class="weui-btn weui-btn_main" href="javascript:;" id="submitOrder">立即预约</a>
                 </div>
             </div>
@@ -78,7 +78,7 @@
             getWebService("/meeting?date="+$(".nowDate").val(), function (data){
                 var str = ''
                 MeetingData = data
-                for (let index = 7; index < 19; index++) {
+                for (let index = 9; index < 19; index++) {
                     str += `<div class="office-time-item slot_ `
                     for (let j = 0; j < data.length; j++) {
                         const ele = data[j];
@@ -142,7 +142,7 @@
                 type: "none",
                 title: "会议详情",
                 content: str,
-                area:["400px", "400px"]
+                area:["350px", "400px"]
             }
             method.msg_layer(obj)
         })

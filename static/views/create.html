@@ -17,28 +17,28 @@
             <div class="office-time">
                 <h4>预定{{.date}}的会议</h4>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-xs-3">
                         <p style="text-align: right;">发起人:</p>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9 col-xs-9">
                         <input type="text" style="width: 100%;" id="publisher">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-xs-3">
                         <p style="text-align: right;">参与人:</p>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9 col-xs-9">
                         <input type="text" style="width: 100%;" id="participants">
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-xs-3">
                         <p style="text-align: right;">会议内容:</p>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9 col-xs-9">
                         <textarea id="content" cols="30" rows="3" style="width: 100%;"></textarea>
                     </div>
                 </div>
@@ -69,10 +69,10 @@
 
         <div class="weui-btn-area">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-xs-6">
                     <a class="weui-btn weui-btn_main" style="background-color: gray;text-decoration:none;" href="/">取消</a>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-xs-6">
                     <a class="weui-btn weui-btn_main" style="text-decoration:none;" href="javascript:;" id="submitOrder">提交</a>
                 </div>
             </div>
@@ -143,7 +143,7 @@
         $(function () {
             getWebService("/meeting?date="+$(".nowDate").val(), function (data){
                 var str = ''
-                for (let index = 7; index < 19; index++) {
+                for (let index = 9; index < 19; index++) {
                     str += `<div class="office-time-item slot_ `
                     for (let j = 0; j < data.length; j++) {
                         const ele = data[j];
