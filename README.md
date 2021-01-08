@@ -11,3 +11,5 @@
 ```
   
 2. go build
+
+![image](https://github.com/cocobao/meeting_reserve/blob/master/static/image/20210108170059.png)
